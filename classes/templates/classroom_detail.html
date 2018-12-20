@@ -8,8 +8,46 @@
   <div class="card-body">
     <h5 class="card-title" style="color: 000034;">{{classroom.name}} {{classroom.subject}}</h5>
     <p class="card-text" style="color: 000034;">{{classroom.year}}</p>
+     {% if request.user == classroom.teacher %}
+    <a href="{% url 'add-student' classroom.id %}" class="btn" style="background-color: #a6e3e9; color: black;">add student</a>
+    
     <a href="{% url 'classroom-update' classroom.id %}" class="btn" style="background-color: #000034; color: white;">Update</a>
     <a href="{% url 'classroom-delete' classroom.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Delete</a>
+     {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Date of birth</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Exam Grade</th>
+
+              {% if request.user == classroom.teacher %}
+                <th scope="col">Update</th>
+                <th scope="col">delete</th>
+              {% endif %}
+
+            </tr>>
+        </thead>>
+        <tbody>
+            {% for s in students %}
+            <tr>
+            <td> {{s.name}}</td>
+            <td>{{s.date_of_birth}} </td>
+            <td> {{s.gender}}</td>
+            <td>{{s.exam_grade}} </td>
+
+            {% if request.user == classroom.teacher %}
+            <td><a href="{% url 'student-update' classroom.id s.id %}" class="btn" style="background-color: #000034; color: white;">Update</a></td>
+            <td><a href="{% url 'student-delete' classroom.id s.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Delete</a></td>
+            </tr>
+            {% endif %}
+
+            {%endfor%}
+        </tbody>
+
+    </table>
+
   </div>
 </div>
 
